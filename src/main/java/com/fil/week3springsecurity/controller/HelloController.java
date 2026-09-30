@@ -3,7 +3,6 @@ package com.fil.week3springsecurity.controller;
 import com.fil.week3springsecurity.util.JWTUtil;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @RestController
