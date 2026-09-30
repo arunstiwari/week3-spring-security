@@ -20,7 +20,7 @@ public class SpringSecurity {
             http.csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(authorizeRequests ->
                             authorizeRequests
-                                    .requestMatchers("/hello").permitAll()
+                                    .requestMatchers("/public").permitAll()
                                     .anyRequest().authenticated())
                     .httpBasic(Customizer.withDefaults());
             return http.build();
