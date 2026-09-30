@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -15,10 +16,10 @@ public class JWTUtil {
     //Secret Key
     private final SecretKey secretKey = Jwts.SIG.HS256.key().build();
 
-    public String generateToken(String username, Map<String, Object> claims) {
+    public String generateToken(String username, List<String> roles) {
         return Jwts.builder()
                 .setSubject(username)
-                .claims(claims)
+                .claim("roles",roles)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000* 60 *60)) // 1hr
                 .signWith(secretKey)
@@ -40,7 +41,7 @@ public class JWTUtil {
         return claims.getSubject();
     }
 
-    private Claims parseClaimValue(String token) {
+    public  Claims parseClaimValue(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()

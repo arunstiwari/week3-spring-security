@@ -5,6 +5,7 @@ import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SpringSecurity {
 
     private JWTAuthFilter jwtAuthFilter;
@@ -31,6 +33,8 @@ public class SpringSecurity {
                             authorizeRequests
                                     .requestMatchers("/public").permitAll()
                                     .requestMatchers("/login").permitAll()
+                                    .requestMatchers("/admin").hasRole("ADMIN")
+                                    .requestMatchers("/user").hasRole("USER")
                                     .anyRequest().authenticated())
                     .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
             return http.build();
